@@ -1,0 +1,27 @@
+<html>
+    <head>
+        <title> ToDo App </title>
+        <link rel="stylesheet"
+              href="https://fonts.googleapis.com/css?family=Lato">
+        <style>
+            body {
+                font-family: 'Lato';
+                font-size: 18px;
+            }
+        </style>
+    </head>
+    <body>
+    <div class="container">
+        <h2> A Simple ToDo List App </h2>
+        <form action ="/addtask" method="POST">
+            <input type="text" name="newtask" placeholder="add new task">        <button> Add Task </button>
+            <h2> Added Task </h2>
+            <% for( var i = 0; i < commands.length; i++){ %>
+            <li><input type="checkbox" name="check" value="<%= commands[i] %>" /> <%= commands[i] %> </li>
+            <% } %>
+            <button formaction="/removetask" type="submit"> Remove </button>
+        </form>
+        <h2> Completed task </h2>
+    </div>
+    </body>
+</html>
