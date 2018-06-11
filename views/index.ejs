@@ -20,16 +20,12 @@
             to do any command :) </p>
         <form action ="/play" method="POST">
             <h2> Your commands </h2>
-            <div id="commands">Algo</div>
-            <% for( var i = 0; i < commands.length; i++){ %>
-                <li>x<%= commands[i].repetitions%> to <%= commands[i].direction%>
-                <!--<input type="checkbox" name="check" value="<%= commands[i] %>" /> <%= commands[i] %> </li>-->
-            <% } %>
-            <button>Let's play 2048!</button>
+            <div id="commands"></div>
+            <button id="confirmCommands">Let's play 2048!</button>
         </form>
         <h2> Completed task </h2>
     </div>
     <script src="static/clientIndex.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/deepstream.io-client-js/2.1.1/deepstream.js"></script>
+    <script type="module" src="//cdnjs.cloudflare.com/ajax/libs/deepstream.io-client-js/2.1.1/deepstream.js"></script>
     </body>
 </html>

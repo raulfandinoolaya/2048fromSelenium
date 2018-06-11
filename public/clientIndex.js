@@ -1,7 +1,6 @@
-// import deepstream from 'deepstream.io-client-js';
+// const deepstream = require('deepstream.io-client-js')
 
 const element = document.getElementById("commands");
-// const client = deepstream('http://localhost').login();
 
 document.addEventListener('keydown', handleKeyPress);
 
@@ -30,34 +29,31 @@ let lastKey= '';
 function handleKeyPress (e){
     keyCode= e.keyCode;
 
-    var divtest = document.createElement("div");
-    divtest.innerHTML = directions.get(keyCode);
-    element.appendChild(divtest);
 
     if(keyCode == 37 || keyCode == 38 || keyCode == 39 || keyCode == 40){
         currentKey = keyCode;
         var newCommand;
+        var commandUI = document.createElement("INPUT");
+        commandUI.setAttribute("type", "text");
+        commandUI.setAttribute("readonly", true);
+        commandUI.setAttribute("name", "commandFields");
         if(currentKey == lastKey){
             var lastCommand = commandList.pop();
             var currentRepetions = lastCommand.repetitions;
             lastCommand.repetitions = currentRepetions + 1;
             commandList.push(lastCommand);
+            element.lastChild.remove();
+            commandUI.setAttribute("value","x"+lastCommand.repetitions + " to " + lastCommand.direction);
+            element.appendChild(commandUI);
         }else{
             newCommand = new Command(commandId, directions.get(keyCode), 1, "ENTERED");
             commandList.push(newCommand);
             commandId++;
             lastKey = currentKey;
+            commandUI.setAttribute("value","x"+newCommand.repetitions + " to " + newCommand.direction);
+            element.appendChild(commandUI);
         }
         console.log(commandList);
-    }else if(keyCode==13){
-        record.set({
-            personalData: {
-                firstname: 'Homer',
-                lastname: 'Simpson',
-                status: 'married'
-            },
-            children: ['Bart', 'Maggie', 'Lisa']
-        });
     }
 }
 

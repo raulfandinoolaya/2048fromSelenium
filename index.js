@@ -21,33 +21,25 @@ app.use(express.static(__dirname + '/node_modules/aut-styles/'));
 
 app.set('view engine', 'ejs');
 
-var commands = [];
-
-// var myLogger = function (req, res, next) {
-//     console.log('LOGGED')
-//     next()
-// }
-//
-// app.use(myLogger)
-
-
 app.post("/commands", function(req, res) {
     console.log('New player:',req.body.newplayer);
     res.render("index", {
-            commands: commands,
             newPlayer: req.body.newplayer,
             });
 });
 
-app.post("/play", function(req, res) {
-    console.log('Commands:',req.body.newplayer);
 
-    res.render("index", {
-        commands: commands,
+app.post("/play", function(req, res) {
+    res.render("selenium", {
         newPlayer: req.body.newplayer,
+        commands: req.body.commandFields,
     });
+    seleniumExecution(req.body.commandFields);
 });
 
+app.get("/scoreboard", function(req, res) {
+    res.render("scoreboard");
+});
 
 // app.get("/", function(req, res) {
 //     res.render("registry");
@@ -59,11 +51,24 @@ app.get("/", function(req, res) {
 
 app.use('/static', express.static('public'));
 
+
 app.listen(3000)
+async function seleniumExecution(commandFields) {
+    var path = require('chromedriver').path;
 
+    console.log("commands: ",commandFields);
 
-// var path = require('chromedriver').path;
-// var driver = chrome.Driver.createSession(new chrome.Options(), new
-// chrome.ServiceBuilder(path).build());
-//
-// driver.get('http://mysite/myapp/tests/functional/start.html');
+    var driver = chrome.Driver.createSession(new chrome.Options(), new
+    chrome.ServiceBuilder(path).build());
+    driver.get('http://2048game.com/');
+    var score = await driver.findElement(By.className("score-container")).getText()
+
+    for (var i in commandFields) {
+        currentCommand = commandFields[i];
+        const repetitions = currentCommand.substring(1, 2);
+        const direction = currentCommand.split(" ")[2];
+        console.log("Repetitions: ", repetitions);
+        console.log("Direction: ", direction);
+    }
+
+}
