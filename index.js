@@ -1,6 +1,7 @@
 var express = require('express')
 var app = express()
 var path = require('path')
+var cons = require('consolidate');
 const deepstream = require( 'deepstream.io-client-js' );
 
 const ds = deepstream( '0.0.0.0:6020/deepstream' );
@@ -14,7 +15,9 @@ chrome = require('selenium-webdriver/chrome'),
 firefox = require('selenium-webdriver/firefox');
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/public/'));
+
+app.use(express.static(__dirname + '/node_modules/aut-styles/'));
 
 app.set('view engine', 'ejs');
 
@@ -45,6 +48,10 @@ app.post("/play", function(req, res) {
     });
 });
 
+
+// app.get("/", function(req, res) {
+//     res.render("registry");
+// });
 
 app.get("/", function(req, res) {
     res.render("registry");
