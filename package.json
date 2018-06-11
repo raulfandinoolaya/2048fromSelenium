@@ -11,10 +11,14 @@
   "dependencies": {
     "body-parser": "^1.18.3",
     "chromedriver": "^2.39.0",
+    "deepstream.io": "^3.1.2",
+    "deepstream.io-client-js": "^2.3.0",
     "ejs": "^2.6.1",
     "express": "^4.16.3",
     "iohook": "^0.2.0",
     "path": "^0.12.7",
+    "react": "^16.4.0",
+    "react-dom": "^16.4.0",
     "selenium-webdriver": "^4.0.0-alpha.1"
   }
 }
