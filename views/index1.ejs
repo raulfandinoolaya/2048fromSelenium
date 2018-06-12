@@ -1,0 +1,45 @@
+<html>
+<head>
+    <title> ToDo App </title>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Lato">
+    <style>
+        body {
+            font-family: 'Lato';
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h3> Hi <%= newPlayer %>!</h3>
+    <p id="p1"> You are about to bet in the casino, you need to fill 15 commands that I will do for
+        you in the 2048 game, a command is a direction, and how many times you want that I slice the boxes
+        inside the game to that direction, you can do 5 repetitions, but, if any of these repetitions in each
+        command has not effect in the game you will have a negative hit, so, be careful with how many times
+        to do any command :) </p>
+    <form action="/play" method="POST">
+        <h2> Your commands </h2>
+        <div id="commands">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 ml-auto" id="test-col-1">
+                    </div>
+                    <div class="col-md-4 ml-auto" id="test-col-2">
+                    </div>
+                    <div class="col-md-4 ml-auto" id="test-col-3">
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <button id="confirmCommands">Let's play 2048!</button>
+    </form>
+    <h2> Completed task </h2>
+</div>
+<script src="static/clientIndex.js"></script>
+<script type="module" src="//cdnjs.cloudflare.com/ajax/libs/deepstream.io-client-js/2.1.1/deepstream.js"></script>
+<script src="/vendor/jquery/jquery.min.js"></script>
+</body>
+</html>
