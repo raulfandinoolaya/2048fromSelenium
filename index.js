@@ -1,30 +1,23 @@
 var express = require('express')
+var mongojs = require('mongojs')
 var app = express()
 var path = require('path')
-const deepstream = require( 'deepstream.io-client-js' );
 
-const ds = deepstream( '0.0.0.0:6020/deepstream' );
-ds.login();
+var db = mongojs('autogame', ['scores'])
 var bodyParser = require("body-parser");
-
-webdriver = require('selenium-webdriver'),
-By = webdriver.By,
-until = webdriver.until,
-chrome = require('selenium-webdriver/chrome'),
-firefox = require('selenium-webdriver/firefox');
-
+const {Builder, By, Key, until} = require('selenium-webdriver');
+global.player = new Map();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'));
 
 app.set('view engine', 'ejs');
 
 app.post("/commands", function(req, res) {
-    console.log('New player:',req.body.newplayer);
+    this.player = req.body.newplayer;
     res.render("index", {
             newPlayer: req.body.newplayer,
             });
 });
-
 
 app.post("/play", function(req, res) {
     res.render("selenium", {
@@ -35,7 +28,14 @@ app.post("/play", function(req, res) {
 });
 
 app.get("/scoreboard", function(req, res) {
-    res.render("scoreboard");
+    let scoresFromDB;
+    db.scores.find(function (err, docs) {
+        scoresFromDB = docs;
+        console.log(scoresFromDB);
+    })
+    res.render("scoreboard", {
+        scores: scoresFromDB
+    });
 });
 
 app.get("/", function(req, res) {
@@ -46,22 +46,69 @@ app.use('/static', express.static('public'));
 
 
 app.listen(3000)
+
 async function seleniumExecution(commandFields) {
-    var path = require('chromedriver').path;
+    let driver = await new Builder().forBrowser('firefox').build();
+    let fails = 0;
+    let finalScoreInTheGame = 0;
+    let finalScoreMinusFails = 0;
+    try{
+        await driver.get('http://2048game.com/');
+        const score = await driver.findElement(By.className("score-container"));
+        const additionalScore = await driver.findElement(By.className("score-container"));
+        const board = await driver.findElement(By.className("game-container"));
+        for (var i in commandFields) {
+            currentCommand = commandFields[i];
+            const repetitions = currentCommand.substring(1, 2);
+            const direction = currentCommand.split(" ")[2];
+            console.log(currentCommand);
+            const actions = driver.actions();
 
-    console.log("commands: ",commandFields);
-
-    var driver = chrome.Driver.createSession(new chrome.Options(), new
-    chrome.ServiceBuilder(path).build());
-    driver.get('http://2048game.com/');
-    var score = await driver.findElement(By.className("score-container")).getText()
-
-    for (var i in commandFields) {
-        currentCommand = commandFields[i];
-        const repetitions = currentCommand.substring(1, 2);
-        const direction = currentCommand.split(" ")[2];
-        console.log("Repetitions: ", repetitions);
-        console.log("Direction: ", direction);
+            for (var j=0; j<repetitions; j++){
+                // await actions.sendKeys(Key.UP).perform();
+                const numbersBefore = await board.getText();
+                switch (direction) {
+                    case 'UP':
+                        await actions.sendKeys(Key.UP).perform();
+                        break;
+                    case 'DOWN':
+                        await actions.sendKeys(Key.DOWN).perform();
+                        break;
+                    case 'RIGHT':
+                        await actions.sendKeys(Key.RIGHT).perform();
+                        break;
+                    case 'LEFT':
+                        await actions.sendKeys(Key.LEFT).perform();
+                        break;
+                }
+                const numbersAfter = await board.getText();
+                if(numbersBefore!=numbersAfter){
+                    console.log("Good point")
+                }else{
+                    console.log("Ouch, your command hadn't effect")
+                    fails++;
+                }
+            }
+            console.log( await score.getText());
+        }
+        await sleep(2000);
+        finalScoreInTheGame = await score.getText();
+        finalScoreMinusFails = finalScoreInTheGame - (finalScoreInTheGame * fails / 100);
+        console.log("Your final score is ",finalScoreMinusFails," corresponding to your final score in the game: ",
+            finalScoreInTheGame,"-", fails, "% according with the commands that you entered without effect in the game :).")
+    } finally {
+        await driver.quit();
     }
+    try{
+    db.scores.insert({  player: this.player,
+        finalScore: finalScoreMinusFails,
+        actualScoreInTheGame: finalScoreInTheGame,
+        fails: fails});
+    }catch(err) {
+        console.log(err.message);
+    }
+}
 
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
