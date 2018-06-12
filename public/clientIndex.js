@@ -86,8 +86,8 @@ function handleKeyPress(e) {
             var currentRepetions = lastCommand.repetitions;
             lastCommand.repetitions = currentRepetions + 1;
             commandList.push(lastCommand);
-            commandUI.setAttribute("value", "x" + (lastNum + 1));
-
+            // commandUI.setAttribute("value", "x" + (lastNum + 1));
+            commandUI.setAttribute("value", "x" + (lastNum + 1) + " - " + lastCommand.direction  );
             printArrow(divCol);
             divCol.appendChild(commandUI);
             div.appendChild(divRow);
@@ -99,7 +99,8 @@ function handleKeyPress(e) {
             commandList.push(newCommand);
             commandId++;
             lastKey = currentKey;
-            commandUI.setAttribute("value", "x" + newCommand.repetitions);
+            // commandUI.setAttribute("value", "x" + newCommand.repetitions);
+            commandUI.setAttribute("value", "x" + newCommand.repetitions + " - " + newCommand.direction  );
             divCol.appendChild(commandUI);
             div.appendChild(divRow);
             i++;

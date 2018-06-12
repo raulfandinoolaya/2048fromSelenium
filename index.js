@@ -63,6 +63,7 @@ async function seleniumExecution(commandFields) {
         const board = await driver.findElement(By.className("game-container"));
         for (var i in commandFields) {
             currentCommand = commandFields[i];
+            console.log("COMMANDS:",currentCommand);
             const repetitions = currentCommand.substring(1, 2);
             const direction = currentCommand.split(" ")[2];
             console.log(currentCommand);
