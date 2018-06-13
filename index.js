@@ -100,8 +100,8 @@ async function seleniumExecution(commandFields) {
         await sleep(2000);
         finalScoreInTheGame = await score.getText();
         finalScoreMinusFails = finalScoreInTheGame - (finalScoreInTheGame * fails / 100);
-        console.log("Your final score is ",finalScoreMinusFails," corresponding to your final score in the game: ",
-            finalScoreInTheGame,"-", fails, "% according with the commands that you entered without effect in the game :).")
+        console.log("Your base score is",finalScoreInTheGame, "but you had",fails, "commands without any effect in the game, so we are " +
+            "substracting", fails+"%,","so your final score is:",finalScoreMinusFails+".");
     } finally {
         await driver.quit();
     }
