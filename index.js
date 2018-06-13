@@ -33,13 +33,14 @@ app.post("/play", function(req, res) {
 
 app.get("/scoreboard", function(req, res) {
     let scoresFromDB;
-    db.scores.find(function (err, docs) {
+
+    db.scores.find().sort({finalScore: -1}, function (err, docs) {
         scoresFromDB = docs;
-        console.log(scoresFromDB);
+
+        res.render("scoreboard", {
+            scores: scoresFromDB
+        });
     })
-    res.render("scoreboard", {
-        scores: scoresFromDB
-    });
 });
 
 app.get("/", function(req, res) {
@@ -56,6 +57,7 @@ async function seleniumExecution(commandFields) {
     let fails = 0;
     let finalScoreInTheGame = 0;
     let finalScoreMinusFails = 0;
+    console.log("Let's start", player+ "!")
     try{
         await driver.get('http://2048game.com/');
         const score = await driver.findElement(By.className("score-container"));
@@ -63,7 +65,7 @@ async function seleniumExecution(commandFields) {
         const board = await driver.findElement(By.className("game-container"));
         for (var i in commandFields) {
             currentCommand = commandFields[i];
-            console.log("COMMANDS:",currentCommand);
+            console.log("Command:",currentCommand);
             const repetitions = currentCommand.substring(1, 2);
             const direction = currentCommand.split(" ")[2];
             console.log(currentCommand);
@@ -93,7 +95,7 @@ async function seleniumExecution(commandFields) {
                     fails++;
                 }
             }
-            console.log( await score.getText());
+            console.log("your score so far:", await score.getText());
         }
         await sleep(2000);
         finalScoreInTheGame = await score.getText();
@@ -105,8 +107,8 @@ async function seleniumExecution(commandFields) {
     }
     try{
     db.scores.insert({  player: this.player,
-        finalScore: finalScoreMinusFails,
-        actualScoreInTheGame: finalScoreInTheGame,
+        finalScore: roundToTwo(finalScoreMinusFails),
+        actualScoreInTheGame: roundToTwo(finalScoreInTheGame),
         fails: fails});
     }catch(err) {
         console.log(err.message);
@@ -115,4 +117,8 @@ async function seleniumExecution(commandFields) {
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function roundToTwo(num) {
+    return +(Math.round(num + "e+2")  + "e-2");
 }
