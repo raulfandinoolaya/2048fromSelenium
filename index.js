@@ -3,7 +3,10 @@ var mongojs = require('mongojs')
 var app = express()
 var path = require('path')
 
-var db = mongojs('autogame', ['scores'])
+// var db = mongojs('autogame', ['scores']);
+
+var db = mongojs('172.17.225.77:27017/autogame', ['scores']);
+
 
 var bodyParser = require("body-parser");
 const {Builder, By, Key, until} = require('selenium-webdriver');

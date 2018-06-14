@@ -1,0 +1,27 @@
+<html>
+<head>
+    <title> AutoGame </title>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Lato">
+    <style>
+        body {
+            font-family: 'Lato';
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h3> All your predictions will be perform <%= newPlayer %>!</h3>
+    <p> Right now you could see another window opening in this machine, that browser will execute all your
+    commands, you can follow your progress on the Selenium console.</p>
+    <% for( var i = 0; i < commands.length; i++){ %>
+        <li><%= commands[i] %></li>
+    <% } %>
+    <form action ="/scoreboard" method="GET">
+        <h2>When the execution finish, you can see your score :)</h2>
+        <button>Go to the results</button>
+    </form>
+</div>
+</body>
+</html>
