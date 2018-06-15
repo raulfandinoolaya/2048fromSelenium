@@ -74,39 +74,23 @@
 
                     <% for( var i = 0; i < scores.length; i++){ %>
 
-                    <% if(i == 0){
-                    if(currentValues.player == scores[i].player && currentValues.finalScore == scores[i].finalScore && currentValues.actualScoreInTheGame == scores[i].actualScoreInTheGame){ %>
-                    <tr class="bg-info" class="first">
-                        <% }else{ %>
+                    <% if(i == 0){ %>
                     <tr class="first">
-                        <% } %>
                         <td>1ST</td>
                         <% } %>
 
-                        <% if(i == 1){
-                        if(currentValues.player == scores[i].player && currentValues.finalScore == scores[i].finalScore && currentValues.actualScoreInTheGame == scores[i].actualScoreInTheGame){ %>
-                    <tr class="bg-info" class="second">
-                        <% }else{ %>
+                        <% if(i == 1){ %>
                     <tr class="second">
-                        <% } %>
                         <td>2ND</td>
                         <% } %>
 
-                        <% if(i == 2){
-                        if(currentValues.player == scores[i].player && currentValues.finalScore == scores[i].finalScore && currentValues.actualScoreInTheGame == scores[i].actualScoreInTheGame){ %>
-                    <tr class="bg-info">
-                        <% }else{ %>
+                        <% if(i == 2){ %>
                     <tr>
-                        <% } %>
                         <td>3RD</td>
                         <% } %>
 
-                        <% if(i >= 3){
-                        if(currentValues.player == scores[i].player && currentValues.finalScore == scores[i].finalScore && currentValues.actualScoreInTheGame == scores[i].actualScoreInTheGame){ %>
-                    <tr class="bg-info">
-                        <% }else{ %>
+                        <% if(i >= 3){ %>
                     <tr>
-                        <% } %>
                         <td><%= i + 1 %>TH</td>
                         <% } %>
 

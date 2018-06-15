@@ -51,6 +51,20 @@ app.get("/scoreboard", function (req, res) {
     })
 });
 
+app.get("/tablescores", function (req, res) {
+    let scoresFromDB;
+
+    db.scores.find().sort({finalScore: -1}, function (err, docs) {
+        scoresFromDB = docs;
+
+        console.log(scoresFromDB);
+
+        res.render("totalscore", {
+            scores: scoresFromDB
+        });
+    })
+});
+
 
 app.get("/", function (req, res) {
     res.render("registry");
