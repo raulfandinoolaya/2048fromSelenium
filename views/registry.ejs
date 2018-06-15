@@ -41,16 +41,35 @@
     <div class="container">
         <h1 class="text-uppercase mb-0" style="font-size: 3.45em;">Welcome to</h1>
         <h1 class="text-uppercase mb-0" style="font-size: 3.45em;">Autogame!!!</h1>
-        <img class="img-fluid mb-5 d-block mx-auto" style="max-width: 25%;" src="/img/profile.png" alt="">
+        <!--<img class="img-fluid mb-5 d-block mx-auto" style="max-width: 25%;" src="/img/profile.png" alt="">-->
         <hr class="star-light">
         <h2 class="font-weight-light mb-0">Please enter your name to start the game :)</h2>
-        <div class="container" style="margin-top: 5%">
-            <form action="/commands" method="POST">
-                <input id="newplayer" name="newplayer" type="text" placeholder="Enter your name!" required="required"
-                       data-validation-required-message="Please enter your name."
-                       style="border-radius: .25rem; vertical-align: initial; margin-right: 3%">
-                <button class="btn btn-outline-light"> Go!</button>
-            </form>
+        <!--<div class="container" style="margin-top: 5%">-->
+            <!--<form action="/commands" method="POST">-->
+                <!--<input id="newplayer" name="newplayer" type="text" placeholder="Enter your name!" required="required"-->
+                       <!--data-validation-required-message="Please enter your name."-->
+                       <!--style="border-radius: .25rem; vertical-align: initial; margin-right: 3%">-->
+                <!--<button class="btn btn-outline-light"> Go!</button>-->
+            <!--</form>-->
+        <!--</div>-->
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <img class="img-fluid mb-5 d-block mx-auto" style="max-width: 70%;" src="/img/profile.png" alt="">
+                </div>
+                <div class="col-md-6">
+
+                    <form action="/commands" method="POST">
+                        <input id="newplayer" name="newplayer" type="text" placeholder="Enter your name!"
+                               required="required"
+                               data-validation-required-message="Please enter your name."
+                               style="border-radius: .25rem; vertical-align: initial; margin-right: 3%">
+                        <button class="btn btn-outline-light"> Go!</button>
+                    </form>
+                </div>
+            </div>
+
         </div>
     </div>
 </header>

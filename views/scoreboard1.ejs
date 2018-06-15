@@ -48,6 +48,7 @@
         <h2 class="text-center text-uppercase text-secondary mb-0">High Score Table</h2>
         <hr>
         <div class="row" style="margin-top: 4%">
+
             <div class="col-md-12">
                 <table class="table-score ">
                     <thead>
@@ -72,24 +73,44 @@
                     </tr>
 
                     <% for( var i = 0; i < scores.length; i++){ %>
-                    <% if(i == 0){ %>
+
+                    <% if(i == 0){
+                    if(currentValues.player == scores[i].player && currentValues.finalScore == scores[i].finalScore && currentValues.actualScoreInTheGame == scores[i].actualScoreInTheGame){ %>
+                    <tr class="bg-info" class="first">
+                        <% }else{ %>
                     <tr class="first">
+                        <% } %>
                         <td>1ST</td>
                         <% } %>
-                        <% if(i == 1){ %>
+
+                        <% if(i == 1){
+                        if(currentValues.player == scores[i].player && currentValues.finalScore == scores[i].finalScore && currentValues.actualScoreInTheGame == scores[i].actualScoreInTheGame){ %>
+                    <tr class="bg-info" class="second">
+                        <% }else{ %>
                     <tr class="second">
+                        <% } %>
                         <td>2ND</td>
                         <% } %>
 
-                        <% if(i == 2){ %>
+                        <% if(i == 2){
+                        if(currentValues.player == scores[i].player && currentValues.finalScore == scores[i].finalScore && currentValues.actualScoreInTheGame == scores[i].actualScoreInTheGame){ %>
+                    <tr class="bg-info">
+                        <% }else{ %>
                     <tr>
+                        <% } %>
                         <td>3RD</td>
                         <% } %>
 
-                        <% if(i >= 3){ %>
+                        <% if(i >= 3){
+                        if(currentValues.player == scores[i].player && currentValues.finalScore == scores[i].finalScore && currentValues.actualScoreInTheGame == scores[i].actualScoreInTheGame){ %>
+                    <tr class="bg-info">
+                        <% }else{ %>
                     <tr>
+                        <% } %>
                         <td><%= i + 1 %>TH</td>
                         <% } %>
+
+                        <!--No move-->
                         <td><%= scores[i].player %></td>
                         <td style="text-align: right"><%= scores[i].finalScore %></td>
                         <td style="text-align: right"><%= scores[i].actualScoreInTheGame %></td>
@@ -172,7 +193,6 @@
         </div>
     </div>
 </footer>
-
 
 <!-- Bootstrap core JavaScript -->
 <script src="vendor/jquery/jquery.min.js"></script>
