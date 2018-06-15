@@ -36,6 +36,9 @@ function handleKeyPress(e) {
         currentKey = keyCode;
         var newCommand;
 
+        document.getElementById("confirmCommands").removeAttribute("disabled");
+        document.getElementById("confirmCommands").setAttribute("class", "btn btn-primary");
+
         var div = document.getElementById("test-col-" + id);
 
         if ((id === 3 && div.childElementCount === 6) || commandList.length === 18) {
@@ -47,7 +50,7 @@ function handleKeyPress(e) {
                 divNewAlert.setAttribute("role", "alert");
                 divNewAlert.setAttribute("style", "margin-left: 5%; margin-right: 10%;");
 
-                var textAlert = document.createTextNode("You haven't more moves. It's time to play!!");
+                var textAlert = document.createTextNode("You can't enter any more commands. It's time to play!!");
                 divNewAlert.appendChild(textAlert);
                 divAlert.appendChild(divNewAlert);
 

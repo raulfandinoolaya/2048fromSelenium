@@ -12,8 +12,13 @@
 </head>
 <body>
 <div class="container">
-    <h1>Score board</h1>
-    <p>We are working on this...</p>
+    <h1>KINGS OF AUTOGAME</h1>
+    <% for( var i = 0; i < scores.length; i++){ %>
+        <li><%= scores[i].player %> - <%= scores[i].finalScore %> = <%= scores[i].actualScoreInTheGame %> - <%= scores[i].fails %> % </li>
+    <% } %>
+    <form action ="/" method="GET">
+        <button>Go to Registry :)</button>
+    </form>
 </div>
 </body>
 </html>
