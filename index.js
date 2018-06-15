@@ -3,9 +3,9 @@ var mongojs = require('mongojs')
 var app = express()
 var path = require('path')
 
-// var db = mongojs('autogame', ['scores']);
+var db = mongojs('autogame', ['scores']);
 
-var db = mongojs('172.17.225.77:27017/autogame', ['scores']);
+// var db = mongojs('172.17.225.77:27017/autogame', ['scores']);
 
 
 var bodyParser = require("body-parser");
@@ -41,11 +41,14 @@ app.get("/scoreboard", function (req, res) {
     db.scores.find().sort({finalScore: -1}, function (err, docs) {
         scoresFromDB = docs;
 
-        res.render("scoreboard", {
+        console.log(scoresFromDB);
+
+        res.render("scoreboard1", {
             scores: scoresFromDB
         });
     })
 });
+
 
 app.get("/", function (req, res) {
     res.render("registry");
