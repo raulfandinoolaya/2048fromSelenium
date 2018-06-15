@@ -28,7 +28,7 @@ app.post("/commands", function (req, res) {
 
 app.post("/play", function (req, res) {
     res.render("selenium", {
-        newPlayer: req.body.newplayer,
+        newPlayer: player,
         commands: req.body.commandFields,
     });
 
