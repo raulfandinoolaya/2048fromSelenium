@@ -8,6 +8,7 @@ var db = mongojs('autogame', ['scores'])
 var bodyParser = require("body-parser");
 const {Builder, By, Key, until} = require('selenium-webdriver');
 global.player = new Map();
+global.currentValues;
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public/'));
 
@@ -38,13 +39,15 @@ app.get("/scoreboard", function(req, res) {
         scoresFromDB = docs;
 
         res.render("scoreboard", {
-            scores: scoresFromDB
+            scores: scoresFromDB,
+            currentValues: currentValues
         });
     })
 });
 
 app.get("/", function(req, res) {
     res.render("registry");
+    console.log("Welcome to Autogame!")
 });
 
 app.use('/static', express.static('public'));
@@ -99,26 +102,36 @@ async function seleniumExecution(commandFields) {
         }
         await sleep(2000);
         finalScoreInTheGame = await score.getText();
-        finalScoreMinusFails = finalScoreInTheGame - (finalScoreInTheGame * fails / 100);
+        finalScoreMinusFails = finalScoreInTheGame - roundToTwo(finalScoreInTheGame * fails / 100);
         console.log("Your base score is",finalScoreInTheGame, "but you had",fails, "commands without any effect in the game, so we are " +
             "substracting", fails+"%,","so your final score is:",finalScoreMinusFails+".");
     } finally {
         await driver.quit();
     }
+
     try{
     db.scores.insert({  player: this.player,
         finalScore: roundToTwo(finalScoreMinusFails),
         actualScoreInTheGame: roundToTwo(finalScoreInTheGame),
         fails: fails});
+
+        this.currentValues = {
+            "player": this.player,
+            "finalScore": roundToTwo(finalScoreMinusFails),
+            "actualScoreInTheGame": roundToTwo(finalScoreInTheGame),
+            "fails": fails
+        }
+
     }catch(err) {
         console.log(err.message);
     }
-}
 
+}
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
-}
 
+}
 function roundToTwo(num) {
     return +(Math.round(num + "e+2")  + "e-2");
 }
+

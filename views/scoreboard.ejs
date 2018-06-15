@@ -16,6 +16,7 @@
     <% for( var i = 0; i < scores.length; i++){ %>
         <li><%= scores[i].player %> - <%= scores[i].finalScore %> = <%= scores[i].actualScoreInTheGame %> - <%= scores[i].fails %> % </li>
     <% } %>
+    <li><%= currentValues.player %> - <%= currentValues.finalScore %> = <%= currentValues.actualScoreInTheGame %> - <%= currentValues.fails %> % </li>
     <form action ="/" method="GET">
         <button>Go to Registry :)</button>
     </form>
