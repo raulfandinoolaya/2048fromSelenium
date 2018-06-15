@@ -44,7 +44,7 @@ app.get("/scoreboard", function (req, res) {
     db.scores.find().sort({finalScore: -1}, function (err, docs) {
         scoresFromDB = docs;
 
-        res.render("scoreboard1", {
+        res.render("scoreboard", {
             scores: scoresFromDB,
             currentValues: currentValues
         });
