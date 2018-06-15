@@ -1,9 +1,11 @@
-var express = require('express')
-var mongojs = require('mongojs')
-var app = express()
-var path = require('path')
+const express = require('express')
+const mongojs = require('mongojs')
+const app = express()
+const path = require('path')
+const util = require('util');
+const fs = require('fs');
 
-var db = mongojs('autogame', ['scores']);
+const db = mongojs('autogame', ['scores']);
 
 // var db = mongojs('172.17.225.77:27017/autogame', ['scores']);
 
@@ -41,8 +43,6 @@ app.get("/scoreboard", function (req, res) {
 
     db.scores.find().sort({finalScore: -1}, function (err, docs) {
         scoresFromDB = docs;
-
-        console.log(scoresFromDB);
 
         res.render("scoreboard1", {
             scores: scoresFromDB,
@@ -112,6 +112,10 @@ async function seleniumExecution(commandFields) {
         finalScoreMinusFails = finalScoreInTheGame - roundToTwo(finalScoreInTheGame * fails / 100);
         console.log("Your base score is",finalScoreInTheGame, "but you had",fails, "commands without any effect in the game, so we are " +
             "substracting", fails+"%,","so your final score is:",finalScoreMinusFails+".");
+
+        await takeScreenshot(driver);
+        this.currentValues = {
+        }
     } finally {
         await driver.quit();
     }
@@ -142,3 +146,13 @@ function roundToTwo(num) {
     return +(Math.round(num + "e+2") + "e-2");
 }
 
+const writeFile = util.promisify(fs.writeFile)
+
+async function takeScreenshot(driver){
+    var date = new Date();
+    var minutes = date.getHours();
+    var hours = date.getHours();
+    let data = await driver.takeScreenshot()
+    var base64Data = data.replace(/^data:image\/png;base64,/,"")
+    return await writeFile(`screenshots/${hours}-${minutes}_${player}.png`, base64Data, 'base64')
+}
